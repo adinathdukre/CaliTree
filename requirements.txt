@@ -1,0 +1,9 @@
+nnunetv2==2.8.0
+torch>=2.1.2,!=2.9.*
+SimpleITK>=2.3
+numpy
+scipy
+scikit-image>=0.22
+connected-components-3d>=3.10
+edt>=2.3
+kimimaro>=4.0

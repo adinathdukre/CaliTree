@@ -4,11 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CaliTree: Calibre-Band Airway Segmentation and Tree-Consistent Branch Labelling</title>
-<meta name="description" content="CaliTree is a two-track solution to the ATM&#x27;26 challenge (MICCAI 2026):" />
+<meta name="description" content="CaliTree is a two-track solution to the ATM&#x27;26 challenge (MICCAI 2026): Track Task Track 1 Binary airway segmentation from chest CT Track 2 Branch-wise anatomical labelling of the airway tree into 20 classes (trachea plus 19 segmental bronchi) flowchart LR CT[Chest CT] --&amp;gt; S[Calibre-band nnU-Net&amp;" />
 <meta name="theme-color" content="#147b82" />
 <meta property="og:title" content="CaliTree: Calibre-Band Airway Segmentation and Tree-Consistent Branch Labelling" />
-<meta property="og:description" content="CaliTree is a two-track solution to the ATM&#x27;26 challenge (MICCAI 2026):" />
+<meta property="og:description" content="CaliTree is a two-track solution to the ATM&#x27;26 challenge (MICCAI 2026): Track Task Track 1 Binary airway segmentation from chest CT Track 2 Branch-wise anatomical labelling of the airway tree into 20 classes (trachea plus 19 segmental bronchi) flowchart LR CT[Chest CT] --&amp;gt; S[Calibre-band nnU-Net&amp;" />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="https://raw.githubusercontent.com/genmilab/VGS-Decoding/main/docs/assets/genmilab-logo.png" />
 <meta name="citation_title" content="CaliTree: Calibre-Band Airway Segmentation and Tree-Consistent Branch Labelling" />
 <link rel="icon" href="https://raw.githubusercontent.com/genmilab/VGS-Decoding/main/docs/assets/genmilab-logo.png" />
 <link rel="stylesheet" href="project.css" />
@@ -21,7 +22,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="nav-wrap">
 <a class="brand" href="#top">CaliTree</a>
-<nav aria-label="Main navigation"><a href="#-method">Method</a><a href="#️-installation">Installation</a><a href="#-weights">Weights</a><a href="#-inference">Inference</a></nav>
+<nav aria-label="Main navigation"><a href="#abstract">Overview</a><a href="#method">Method</a><a href="#code">Code</a></nav>
 <a class="nav-code" href="https://github.com/adinathdukre/CaliTree">GitHub <span aria-hidden="true">↗</span></a>
 </div></header>
 <main id="main">
@@ -38,13 +39,7 @@
 <div class="resource-links"><a class="button button-primary" href="https://github.com/adinathdukre/CaliTree"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-12-2 14"/></svg>Code</a><a class="button button-secondary" href="https://huggingface.co/adidukre/CaliTree"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4v10l-8 4-8-4zM4 7l8 4 8-4M12 11v10"/></svg>Weights <span aria-hidden="true">↗</span></a></div>
 <div class="hero-meta"><span>ATM&#x27;26 MICCAI Challenge</span></div>
 </section>
-<section class="section container narrow page-section" id="-news"><p class="section-kicker">01 / NEWS</p><h2>News</h2>
-<ul>
-<li><strong>[30 Sep 2026]</strong> 🚀 Code, Grand Challenge containers and weights for both ATM'26 tracks are released.</li>
-</ul>
-</section>
-<section class="section container narrow page-section" id="overview"><p class="section-kicker">02 / OVERVIEW</p><h2>Overview</h2>
-<p><strong>CaliTree</strong> is a two-track solution to the <a href="https://atm26.grand-challenge.org/">ATM'26 challenge</a> (MICCAI 2026):</p>
+<section class="section abstract-section" id="abstract"><div class="container narrow"><p class="section-kicker">01 / OVERVIEW</p><h2>Overview</h2><div class="abstract-text"><p><strong>CaliTree</strong> is a two-track solution to the <a href="https://atm26.grand-challenge.org/">ATM'26 challenge</a> (MICCAI 2026):</p>
 <div class="table-scroll" tabindex="0"><table class="paper-table">
 <thead>
 <tr>
@@ -72,10 +67,8 @@
     V --&gt; D[Branch vote&lt;br/&gt;tree-prior decoding]
     K --&gt; D
     D --&gt; T2[Track 2 output]
-</pre>
-</section>
-<section class="section container narrow page-section" id="-method"><p class="section-kicker">03 / METHOD</p><h2>Method</h2>
-<h3>Track 1: calibre-band segmentation</h3>
+</pre></div></div></section>
+<section class="section container narrow page-section" id="method"><p class="section-kicker">02 / METHOD</p><h2>Method</h2><h3>Track 1: calibre-band segmentation</h3>
 <ul>
 <li><strong>Backbone.</strong> nnU-Net v2 with a residual encoder (ResEnc-M, <code>3d_fullres</code>), 5-fold ensemble.</li>
 <li><strong>Calibre-band targets.</strong> Each airway voxel gets the calibre of its nearest centerline point (large, mid or distal) plus a centerline-tube flag. The network is trained on four nested regions: airway, mid+distal, distal and centerline.</li>
@@ -91,24 +84,16 @@
 <li><strong>Segment.</strong> A Track-1 style calibre-band segmenter produces the binary airway mask.</li>
 <li><strong>Label voxels.</strong> A 21-class nnU-Net (<code>3d_fullres_SAS</code>, no mirroring) labels voxels. It was warm-started from the official ATM'26 Track-2 baseline weights and fine-tuned for 1000 epochs.</li>
 <li><strong>Decode branches.</strong> A TEASAR skeleton of the airway mask splits it into branches. Each branch gets one label from a vote over the voxel predictions, decoded under a tree prior, and the labels are rasterised back to the mask.</li>
-</ol>
-</section>
-<section class="section container narrow page-section" id="️-installation"><p class="section-kicker">04 / INSTALLATION</p><h2>Installation</h2>
-<pre><code class="language-bash">git clone https://github.com/adinathdukre/CaliTree.git
+</ol></section>
+<section class="section container narrow page-section" id="code"><p class="section-kicker">03 / CODE</p><h2>Code and usage</h2><details open><summary>Installation</summary><pre><code class="language-bash">git clone https://github.com/adinathdukre/CaliTree.git
 cd CaliTree
 pip install -r requirements.txt
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="-weights"><p class="section-kicker">05 / WEIGHTS</p><h2>Weights</h2>
-<pre><code class="language-bash">huggingface-cli download adidukre/CaliTree --local-dir /path/to/weights
+</code></pre></details><details><summary>Weights</summary><pre><code class="language-bash">huggingface-cli download adidukre/CaliTree --local-dir /path/to/weights
 </code></pre>
 <pre><code class="language-text">/path/to/weights/
 ├── track1/   postproc.json, nnUNet_ckpts/ (5 folds)
 └── track2/   postproc_t2.json, nnUNet_ckpts/ (segmenter, 5 folds), nnUNet_t2warm/ (21-class model, 5 folds)
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="-inference"><p class="section-kicker">06 / INFERENCE</p><h2>Inference</h2>
-<p>The input folder holds CT volumes as <code>.mha</code> files (<code>&lt;case&gt;_0000.mha</code> or <code>&lt;case&gt;.mha</code>).</p>
+</code></pre></details><details><summary>Inference</summary><p>The input folder holds CT volumes as <code>.mha</code> files (<code>&lt;case&gt;_0000.mha</code> or <code>&lt;case&gt;.mha</code>).</p>
 <pre><code class="language-bash"># Track 1: writes /path/to/output/images/binary-airway-segmentation/&lt;case&gt;.mha
 ATM_RESOURCES=/path/to/weights/track1 ATM_INPUT=/path/to/ct_folder ATM_OUTPUT=/path/to/output \
     python docker/T1/inference.py
@@ -150,19 +135,13 @@ ATM_RESOURCES=/path/to/weights/track2 ATM_INPUT=/path/to/ct_folder ATM_OUTPUT=/p
 <td>Track-2 21-class model folds</td>
 </tr>
 </tbody>
-</table></div>
-</section>
-<section class="section container narrow page-section" id="-docker"><p class="section-kicker">07 / DOCKER</p><h2>Docker</h2>
-<p>The images follow the ATM'26 Grand Challenge and batch contract: they read <code>/input/images/lung-ct/*.mha</code> and write to <code>/output/images/&lt;slug&gt;/</code>. They build on the organisers' CUDA 11.8 nnU-Net base image, <code>atm26-nnunetv2:2.6.4-cuda11.8</code>.</p>
+</table></div></details><details><summary>Docker</summary><p>The images follow the ATM'26 Grand Challenge and batch contract: they read <code>/input/images/lung-ct/*.mha</code> and write to <code>/output/images/&lt;slug&gt;/</code>. They build on the organisers' CUDA 11.8 nnU-Net base image, <code>atm26-nnunetv2:2.6.4-cuda11.8</code>.</p>
 <pre><code class="language-bash">bash docker/T1/build.sh /path/to/weights/track1 atm26-track1
 bash docker/T2/build.sh /path/to/weights/track2 atm26-track2
 
 docker run --rm --gpus all -v /path/to/input:/input:ro -v /path/to/output:/output atm26-track1
 </code></pre>
-<div class="callout callout-tip"><strong>Tip</strong><p>To also export a <code>.tar.gz</code> of the image, set <code>ATM_EXPORT=1</code> when you build.</p></div>
-</section>
-<section class="section container narrow page-section" id="️-training"><p class="section-kicker">08 / TRAINING</p><h2>Training</h2>
-<pre><code class="language-bash">export ATM_DATA=/path/to/workdir
+<div class="callout callout-tip"><strong>Tip</strong><p>To also export a <code>.tar.gz</code> of the image, set <code>ATM_EXPORT=1</code> when you build.</p></div></details><details><summary>Training</summary><pre><code class="language-bash">export ATM_DATA=/path/to/workdir
 source scripts/env.sh
 </code></pre>
 <details open="open">
@@ -187,26 +166,9 @@ for f in 0 1 2 3 4; do bash scripts/train_t2.sh $f; done
 python scripts/patch_t2_resampling.py $nnUNet_results/Dataset502_ATM26Track2Seg/nnUNetTrainerT2Warm__nnUNetPlansOrg__3d_fullres_SAS/plans.json
 </code></pre>
 <p><code>patch_t2_resampling.py</code> switches the 21-class probability resampling to nnU-Net's torch resampler. This keeps inference memory well below 32 GB.</p>
-</details>
-</section>
-<section class="section container narrow page-section" id="️-repository-layout"><p class="section-kicker">09 / REPOSITORY LAYOUT</p><h2>Repository Layout</h2>
-<pre><code class="language-text">CaliTree/
-├── airway/
-│   ├── losses/       # General Union, Skeleton Recall and soft-skeleton precision losses
-│   ├── inference/    # post-processing, batch I/O, Track-2 voxel model and tree decoding
-│   ├── graph/        # TEASAR branch extraction and the 21-class taxonomy
-│   └── eval/         # connected-component and skeleton utilities
-├── nnunet_trainers/  # custom nnU-Net trainers (nnUNetTrainerAirwayCB_clprec025, nnUNetTrainerT2Warm)
-├── scripts/          # dataset preparation, planning and training
-└── docker/
-    ├── T1/           # Track-1 submission container and entry point
-    └── T2/           # Track-2 submission container and entry point
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="-contact"><p class="section-kicker">10 / CONTACT</p><h2>Contact</h2>
-<p>For questions or collaboration, please open an <a href="https://github.com/adinathdukre/CaliTree/issues">issue</a> or reach out to <a href="https://github.com/adinathdukre">Adinath Madhavrao Dukre</a>.</p>
-<div class="callout callout-important"><strong>Important</strong><p>CaliTree is intended for research only. It is not approved for clinical use and must not inform any diagnostic or treatment decision.</p></div>
-</section>
+</details></details></section>
+<section class="section container narrow page-section small-section" id="contact"><h3>Contact</h3><p>For questions or collaboration, please open an <a href="https://github.com/adinathdukre/CaliTree/issues">issue</a> or reach out to <a href="https://github.com/adinathdukre">Adinath Madhavrao Dukre</a>.</p>
+<div class="callout callout-important"><strong>Important</strong><p>CaliTree is intended for research only. It is not approved for clinical use and must not inform any diagnostic or treatment decision.</p></div></section>
 </main>
 <footer class="site-footer"><div class="container">
 <a class="lab-footer" href="https://github.com/genmilab" aria-label="GenMI-Lab on GitHub">

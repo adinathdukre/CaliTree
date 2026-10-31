@@ -11,12 +11,13 @@ style="margin-bottom:-10px; display:block;" />
 </a>
 
 [![ATM'26](https://img.shields.io/badge/ATM'26-MICCAI_Challenge-147B82?style=for-the-badge)](https://atm26.grand-challenge.org/)
+[![Project Page](https://img.shields.io/badge/Project-Page-147B82?style=for-the-badge&logo=googlechrome&logoColor=white)](https://adinathdukre.github.io/CaliTree/)
 [![Weights](https://img.shields.io/badge/HF-Weights-AECBFA?style=for-the-badge&logo=huggingface&logoColor=FFCC00&labelColor=grey)](https://huggingface.co/adidukre/CaliTree)
 [![nnU-Net v2](https://img.shields.io/badge/nnU--Net-v2_ResEnc--M-orange?style=for-the-badge)](#-method)
 [![Docker](https://img.shields.io/badge/Docker-Grand_Challenge-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#-docker)
 [![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2Fadinathdukre%2FCaliTree&label=Views&countColor=%23147b82&style=for-the-badge)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fadinathdukre%2FCaliTree)
 
-<h3>🤗 <a href="https://huggingface.co/adidukre/CaliTree">Weights</a> &nbsp;|&nbsp; 🧠 <a href="#-method">Method</a> &nbsp;|&nbsp; ⚡ <a href="#-inference">Inference</a></h3>
+<h3>🌐 <a href="https://adinathdukre.github.io/CaliTree/">Project Page</a> &nbsp;|&nbsp; 🤗 <a href="https://huggingface.co/adidukre/CaliTree">Weights</a> &nbsp;|&nbsp; 🧠 <a href="#-method">Method</a> &nbsp;|&nbsp; ⚡ <a href="#-inference">Inference</a></h3>
 
 <img src="https://raw.githubusercontent.com/genmilab/VGS-Decoding/main/docs/assets/genmilab-logo.png" alt="GenMI Lab" height="60"/>
 
